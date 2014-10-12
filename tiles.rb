@@ -7,13 +7,23 @@ require './Transformer'
 
 module DoPracy
 
-	puts "Initialization started"
+	puts "Do pracy, rodacy!\n"
 
 	$file_name_pattern = "tile-%s-%s-%s.png"
 	$url_pattern = "http://tile.openstreetmap.org/%s/%s/%s.png"
 	$data_dir = './data'
 	$tiles_dir = './tiles'
 	$temp_dir = "./temp"
+
+	if !Dir.exist?($data_dir)
+		puts "Create ./data directory and put gpx tracks there."
+		exit
+	end
+
+	Dir.mkdir($temp_dir) if !Dir.exist?($temp_dir)
+	Dir.mkdir($tiles_dir) if !Dir.exist?($tiles_dir)
+
+	puts "Initialization started"
 
 	zoom = 12
 	downloader = TileDownloader.new
@@ -43,7 +53,7 @@ module DoPracy
 
 	puts "Creating employees"
 	(0...gpxData.length).each do |employee|
-		puts "Employee #{employee}"
+		puts "Creating object #{employee}"
 		time = start_time
 		points = []
 		while (time < end_time)
@@ -53,11 +63,10 @@ module DoPracy
 		window.add_player Employee.new(window, points, transformer)
 	end
 
-
 	puts "Initialization complete"
 	puts ""
-	puts "Starting animation"
 
+	puts "Starting animation"
 	window.show
 
 end

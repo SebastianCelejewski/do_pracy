@@ -17,12 +17,9 @@ module DoPracy
 			@section_end_value = @values[@ptr + 1]
 			@section_time_span = @section_end_time - @section_start_time
 			@section_value_span = @section_end_value - @section_start_value
-#			puts "Selected section #{@ptr} (#{@section_start_time} - #{@section_end_time})"
 		end
 
 		def get(time)
-#			puts "Getting value for #{time}, current pointer: #{@ptr}, current time: #{@times[@ptr]}, current value: #{@values[@ptr]}"	
-
 			return @section_start_value if time == @section_start_time
 			return @section_end_value if time == @section_end_time
 
@@ -42,6 +39,5 @@ module DoPracy
 
 			return @section_start_value + (delta_time / @section_time_span) * @section_value_span
 		end
-
 	end
 end

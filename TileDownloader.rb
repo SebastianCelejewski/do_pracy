@@ -53,6 +53,5 @@ module DoPracy
 				return resp.body
 			end
 		end
-
 	end
 end

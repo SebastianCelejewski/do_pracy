@@ -22,13 +22,4 @@ module DoPracy
 			return result
 		end
 	end
-
-	times = [10, 11, 12, 13]
-	values = [7, 9, 22, 5]
-	start_time = 5
-	end_time = 15
-	delta_time = 0.5
-	calculator = Calculation.new
-	result = calculator.recalculate(times, values, start_time, end_time, delta_time)
-	puts result.inspect
 end
