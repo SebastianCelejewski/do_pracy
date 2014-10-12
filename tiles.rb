@@ -4,6 +4,7 @@ require './TileDownloader'
 require './GpxData'
 require './AnimationWindow'
 require './Transformer'
+require './Images'
 
 module DoPracy
 
@@ -14,6 +15,7 @@ module DoPracy
 	$data_dir = './data'
 	$tiles_dir = './tiles'
 	$temp_dir = "./temp"
+	$images_dir = "./images"
 
 	if !Dir.exist?($data_dir)
 		puts "Create ./data directory and put gpx tracks there."
@@ -51,6 +53,8 @@ module DoPracy
 	puts "Creating animation window"
 	window = AnimationWindow.new(width, height, base_map,  number_of_steps)
 
+	images = Images.new window
+
 	puts "Creating employees"
 	(0...gpxData.length).each do |employee|
 		puts "Creating object #{employee}"
@@ -60,7 +64,7 @@ module DoPracy
 			points << gpxData.get(employee, time)
 			time += time_step
 		end
-		window.add_player Employee.new(window, points, transformer)
+		window.add_player Employee.new(window, points, transformer, images)
 	end
 
 	puts "Initialization complete"

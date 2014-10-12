@@ -7,8 +7,8 @@ module DoPracy
 		$queue_length = 40
 		$number_of_dots = 20
 
-		def initialize(window, data, transformer)
-			@image = Gosu::Image.new(window, "./images/icons/bicycle.png", false)
+		def initialize(window, data, transformer, images)
+			@images = images
 			@dots = []
 			(0...$number_of_dots).each do |i|
 				ii = "%02d" % i
@@ -24,6 +24,8 @@ module DoPracy
 			@lat = @data[idx][:lat]
 			@lon = @data[idx][:lon]
 			@points.push ({:lat => @lat, :lon => @lon}) #if idx % 2 == 0
+			type = @data[idx][:type]
+			@image = @images[type]
 		end
 
 		def draw
