@@ -23,9 +23,6 @@ module DoPracy
 		def update(idx)
 			@lat = @data[idx][:lat]
 			@lon = @data[idx][:lon]
-
-			transform @lon, @lat
-
 			@points.push ({:lat => @lat, :lon => @lon}) #if idx % 2 == 0
 		end
 
