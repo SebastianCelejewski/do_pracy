@@ -8,7 +8,7 @@ module DoPracy
 		$number_of_dots = 20
 
 		def initialize(window, data, transformer)
-			@image = Gosu::Image.new(window, "./images/bicycle.png", false)
+			@image = Gosu::Image.new(window, "./images/icons/bicycle.png", false)
 			@dots = []
 			(0...$number_of_dots).each do |i|
 				ii = "%02d" % i
