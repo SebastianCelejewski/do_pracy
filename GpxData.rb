@@ -19,6 +19,13 @@ module DoPracy
 			@length = 0
 		end
 
+		def move_to_single_day(time) 
+			hour = time.hour
+			minute = time.min
+			second = time.sec
+			return Time.utc(2014,10,01,hour,minute,second)
+		end
+
 		def load_data(data_directory)
 			puts "\nLoading track data from #{data_directory}"
 			@data = Hash.new
@@ -26,7 +33,8 @@ module DoPracy
 				xml = Nokogiri::XML(open(f))
 				lats = xml.xpath("//gpx:trkpt/@lat","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| node.content.to_f}
 				lons = xml.xpath("//gpx:trkpt/@lon","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| node.content.to_f}
-				times = xml.xpath("//gpx:trkpt/gpx:time","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| Time.parse(node.content)}
+#				times = xml.xpath("//gpx:trkpt/gpx:time","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| Time.parse(node.content)}
+				times = xml.xpath("//gpx:trkpt/gpx:time","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| move_to_single_day(Time.parse(node.content))}
 
 				lat_range = Range.new(lats.min, lats.max)
 				lon_range = Range.new(lons.min, lons.max)
