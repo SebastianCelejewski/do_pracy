@@ -27,13 +27,13 @@ module DoPracy
 
 	puts "Initialization started"
 
-	zoom = 12
+	zoom = 10
 	downloader = TileDownloader.new
 	gpxData = GpxData.new
 
 	gpxData.load_data($data_dir)
 
-	number_of_steps = 3000
+	number_of_steps = 1000
 
 	gpxData.prepare number_of_steps
 

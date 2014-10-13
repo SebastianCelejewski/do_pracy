@@ -8,7 +8,6 @@ module DoPracy
 		$number_of_dots = 20
 
 		def initialize(window, data, transformer, images)
-			@images = images
 			@dots = []
 			(0...$number_of_dots).each do |i|
 				ii = "%02d" % i
@@ -18,14 +17,38 @@ module DoPracy
 			@window = window
 			@points = PointsQueue.new $queue_length
 			@transformer = transformer
+			load_images window
 		end
+
+		def load_images (window)
+			@images = Hash.new
+			@images[:pedestrian] = load_image window, "pedestrian.png"
+			@images[:bicycle] = load_image window, "bicycle.png"
+			@images[:car] = load_image window, "car.png"
+			@images[:train] = load_image window, "skm.png"
+			@images[:bus] = load_image window, "bus.png"
+			@images[:unknown] = load_image window, "unknown.png"
+			puts @images
+		end
+
+		def load_image (window, name)
+			puts "Loading image #{name}"
+			Gosu::Image.new(window, "./images/icons/#{name}", false)		
+		end
+
+		def get_image type
+			return @data[:unknown] if type == nil
+			result = @images[type]
+			return result if result != nil
+			return @images[:unknown]
+		end		
 
 		def update(idx)
 			@lat = @data[idx][:lat]
 			@lon = @data[idx][:lon]
 			@points.push ({:lat => @lat, :lon => @lon}) #if idx % 2 == 0
-			type = @data[idx][:type]
-			@image = @images[type]
+			@type = @data[idx][:type]
+			@image = get_image(@type)
 		end
 
 		def draw
@@ -46,7 +69,16 @@ module DoPracy
 			if position != nil
 				x = position[:x]
 				y = position[:y]
-				@image.draw_rot(position[:x], position[:y], 2, 0) if position != nil
+
+				image_name = "#{@type}.png"
+				if image_name == @last_image_name
+					@last_image.draw_rot(position[:x], position[:y], 2, 0) if position != nil
+				else
+					@last_image_name = image_name
+					@last_image=load_image @window, "#{@type}.png"
+					@last_image.draw_rot(position[:x], position[:y], 2, 0) if position != nil
+				end
+				#@image.draw_rot(position[:x], position[:y], 2, 0) if position != nil
 			end
 		end
 

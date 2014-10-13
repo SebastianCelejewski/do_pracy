@@ -20,8 +20,10 @@ module DoPracy
 		end
 
 		def [] name
+			puts "Getting image for #{name}"
 			return @data[:unknown] if name == nil
 			result = @data[name]
+			puts "Result is #{result}"
 			return result if result != nil
 			return @data[:unknown]
 		end
