@@ -2,9 +2,10 @@ module DoPracy
 
 	class SmartReader
 
-		def initialize(times, values)
+		def initialize(times, values, averager)
 			@times = times
 			@values = values
+			@averager = averager
 			@ptr = 0
 			select_section(@ptr)
 		end
@@ -35,9 +36,7 @@ module DoPracy
 			end
 
 			delta_time = time - @section_start_time
-
-
-			return @section_start_value + (delta_time / @section_time_span) * @section_value_span
+			return @averager.call(@section_start_value, @section_end_value, (delta_time / @section_time_span))
 		end
 	end
 end

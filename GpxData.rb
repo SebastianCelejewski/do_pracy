@@ -17,6 +17,10 @@ module DoPracy
 			@lon_range = Range.new
 			@time_range = Range.new
 			@length = 0
+
+			@float_averager = Proc.new do |x, y, percent|
+				x + percent * (y - x)
+			end
 		end
 
 		def move_to_single_day(time) 
@@ -35,7 +39,6 @@ module DoPracy
 			else
 				return :unknown
 			end
-
 		end
 
 		def load_data(data_directory)
@@ -81,7 +84,7 @@ module DoPracy
 			delta_time = (@time_range.max - @time_range.min ) / number_of_steps
 
 			puts "Start time: #{start_time}, end time: #{end_time}, delta time: #{delta_time}"
-			calculation = Calculation.new
+			calculation = Calculation.new @float_averager
 
 			(0...@data.length).each do |idx|
 				track_data = @data[idx]
