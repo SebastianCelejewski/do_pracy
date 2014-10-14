@@ -1,11 +1,4 @@
-require 'nokogiri'
-require 'net/http'
-require './TileDownloader'
-require './GpxData'
-require './AnimationWindow'
-require './Transformer'
-require './Images'
-require './Clock'
+require './lib/do_pracy'
 
 module DoPracy
 

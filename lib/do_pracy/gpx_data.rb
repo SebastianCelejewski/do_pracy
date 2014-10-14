@@ -1,8 +1,3 @@
-require "tzinfo"
-require 'nokogiri'
-require './Range'
-require './Calculation'
-
 module DoPracy
 
 	class GpxData

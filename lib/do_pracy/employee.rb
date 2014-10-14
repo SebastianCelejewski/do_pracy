@@ -1,6 +1,3 @@
-require './PointsQueue'
-require './transformer'
-
 module DoPracy
 	class Employee
 

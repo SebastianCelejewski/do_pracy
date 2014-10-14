@@ -1,7 +1,3 @@
-require 'minitest/autorun'
-
-require './SmartReader'
-
 module DoPracy
 
 	class SmartReaderTests < MiniTest::Unit::TestCase

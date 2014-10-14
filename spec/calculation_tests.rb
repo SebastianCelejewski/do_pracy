@@ -1,7 +1,3 @@
-require 'minitest/autorun'
-
-require './Calculation'
-
 module DoPracy
 
 	class CalculationTests < MiniTest::Unit::TestCase

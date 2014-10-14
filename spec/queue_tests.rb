@@ -1,7 +1,3 @@
-require 'minitest/autorun'
-
-require './PointsQueue'
-
 module DoPracy
 
 	class QueueTests < MiniTest::Unit::TestCase

@@ -1,5 +1,3 @@
-require './SmartReader'
-
 module DoPracy
 
 	class Calculation
