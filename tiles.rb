@@ -5,6 +5,7 @@ require './GpxData'
 require './AnimationWindow'
 require './Transformer'
 require './Images'
+require './Clock'
 
 module DoPracy
 
@@ -33,7 +34,7 @@ module DoPracy
 
 	gpxData.load_data($data_dir)
 
-	number_of_steps = 1000
+	number_of_steps = 5000
 
 	gpxData.prepare number_of_steps
 
@@ -50,7 +51,7 @@ module DoPracy
 	width = (tile_range[:x_range] + 1) * 256
 	height = (tile_range[:y_range] + 1) * 256
 
-	puts "Creating animation window"
+	puts "\nCreating animation window"
 	window = AnimationWindow.new(width, height, base_map,  number_of_steps)
 
 	images = Images.new window
@@ -64,8 +65,19 @@ module DoPracy
 			points << gpxData.get(employee, time)
 			time += time_step
 		end
-		window.add_player Employee.new(window, points, transformer, images)
+		window.add_player Employee.new(window, points, transformer)
 	end
+
+	clock_times = []
+	time = start_time
+	while (time < end_time)
+		clock_times << time
+		time += time_step
+	end
+
+	clock = Clock.new window, clock_times
+
+	window.add_clock clock
 
 	puts "Initialization complete"
 	puts ""

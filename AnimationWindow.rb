@@ -1,6 +1,7 @@
 require 'gosu'
 
 require './Employee'
+require './Clock'
 
 module DoPracy
 
@@ -18,8 +19,13 @@ module DoPracy
 			@players << player
 		end
 
+		def add_clock clock
+			@clock = clock
+		end
+
 		def update
 			@players.each { |player| player.update(@idx)}
+			@clock.update @idx
 			@idx = @idx + 1
 			@idx = 0 if @idx >= @length
 		end
@@ -27,6 +33,7 @@ module DoPracy
 		def draw
 			@background_image.draw(0, 0, 0)
 			@players.each { |player| player.draw }
+			@clock.draw
 		end
 	end
 end

@@ -21,13 +21,11 @@ module DoPracy
 				end
 				row_file = "#{$temp_dir}/row-#{row_idx}.png"
 				horizontal_merge_command += " +append #{row_file}"
-				puts "Merging horizontally using command #{horizontal_merge_command}"
 				`#{horizontal_merge_command}`
 				vertical_merge_command += "#{row_file} "
 				row_idx = row_idx + 1
 			end
 			vertical_merge_command += " -append #{merged_file_name}"
-			puts "Merging vertically using command #{vertical_merge_command}"
 			`#{vertical_merge_command}`
 			return merged_file_name
 		end
