@@ -1,5 +1,3 @@
-require 'gosu'
-
 module DoPracy
 
 	class Images

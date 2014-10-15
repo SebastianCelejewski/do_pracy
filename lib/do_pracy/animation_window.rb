@@ -1,10 +1,4 @@
-require 'gosu'
-
-require './Employee'
-require './Clock'
-
 module DoPracy
-
 	class AnimationWindow < Gosu::Window
 		def initialize width, height, background_image_file_path, length
 			super width, height, false

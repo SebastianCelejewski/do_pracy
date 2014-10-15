@@ -1,6 +1,3 @@
-require 'minitest/autorun'
-require './Range'
-
 module DoPracy
 
 	class RangeTests < MiniTest::Unit::TestCase

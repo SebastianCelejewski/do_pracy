@@ -1,0 +1,22 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    gosu (0.8.5-x86-mingw32)
+    mini_portile (0.6.0)
+    minitest (5.4.2)
+    nokogiri (1.6.3.1-x86-mingw32)
+      mini_portile (= 0.6.0)
+    rake (0.9.6)
+    thread_safe (0.3.4)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
+
+PLATFORMS
+  x86-mingw32
+
+DEPENDENCIES
+  gosu
+  minitest
+  nokogiri
+  rake
+  tzinfo

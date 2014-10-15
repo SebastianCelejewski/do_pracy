@@ -1,10 +1,8 @@
-require 'minitest/autorun'
-
-require './Calculation'
+require './spec/config.rb'
 
 module DoPracy
 
-	class CalculationTests < MiniTest::Unit::TestCase
+	class CalculationTests < MiniTest::Test
 
 		def set_up
 			@times = [10, 11, 12, 13]

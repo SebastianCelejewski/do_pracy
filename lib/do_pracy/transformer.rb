@@ -1,5 +1,4 @@
 module DoPracy
-
 	class Transformer
 
 		attr_reader :tile_range
@@ -20,7 +19,6 @@ module DoPracy
 			tile = get_tile_number lat, lon
 			result_x = tile[:x] - @reference[:x].to_i
 			result_y = tile[:y] - @reference[:y].to_i
-#			puts "(#{lon},#{lat}) => (#{tile[:x]},#{tile[:y]}) - (#{@reference[:x]},#{@reference[:y]}) = (#{result_x},#{result_y})"
 			{:x => result_x*256, :y => result_y*256}
 		end
 
@@ -30,13 +28,13 @@ module DoPracy
 			tile_max = get_tile_number lat_range.max, lon_range.max
 
 			@tile_range = {
-					:x_min => tile_min[:x].to_i,
-					:x_max => tile_max[:x].to_i,
-					:y_min => tile_min[:y].to_i,
-					:y_max => tile_max[:y].to_i,
-					:x_range => tile_max[:x].to_i - tile_min[:x].to_i,
-					:y_range => tile_min[:y].to_i - tile_max[:y].to_i
-				}
+				:x_min => tile_min[:x].to_i,
+				:x_max => tile_max[:x].to_i,
+				:y_min => tile_min[:y].to_i,
+				:y_max => tile_max[:y].to_i,
+				:x_range => tile_max[:x].to_i - tile_min[:x].to_i,
+				:y_range => tile_min[:y].to_i - tile_max[:y].to_i
+			}
 
 			puts "Calculated tiles range: #{@tile_range}"
 		end
