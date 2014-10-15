@@ -12,10 +12,8 @@ module DoPracy
 			@lon_range = Range.new
 			@time_range = Range.new
 			@length = 0
-
-			@float_averager = Proc.new do |x, y, percent|
-				x + percent * (y - x)
-			end
+			@track_point_interpolator = TrackPointInterpolator.new
+			@float_interpolator = FloatInterpolator.new
 		end
 
 		def move_to_single_day(time) 
@@ -44,6 +42,7 @@ module DoPracy
 				lats = xml.xpath("//gpx:trkpt/@lat","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| node.content.to_f}
 				lons = xml.xpath("//gpx:trkpt/@lon","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| node.content.to_f}
 				times = xml.xpath("//gpx:trkpt/gpx:time","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| move_to_single_day(Time.parse(node.content))}
+				points = xml.xpath("//gpx:trkpt","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| TrackPoint.from_node node }
 
 				lat_range = Range.new(lats.min, lats.max)
 				lon_range = Range.new(lons.min, lons.max)
@@ -63,6 +62,7 @@ module DoPracy
 				track_data[:lats] = lats
 				track_data[:lons] = lons
 				track_data[:type] = type
+				track_data[:points] = points
 
 				@data[idx] = track_data
 				@length+=1
@@ -79,19 +79,22 @@ module DoPracy
 			delta_time = (@time_range.max - @time_range.min ) / number_of_steps
 
 			puts "Start time: #{start_time}, end time: #{end_time}, delta time: #{delta_time}"
-			calculation = Calculation.new @float_averager
+			float_calculation = Calculation.new @float_interpolator
+			point_calculation = Calculation.new @track_point_interpolator
 
 			(0...@data.length).each do |idx|
 				track_data = @data[idx]
 
 				puts "Calculating track #{idx}"
 
-				lat_data = calculation.recalculate track_data[:times], track_data[:lats], start_time, end_time, delta_time
-				lon_data = calculation.recalculate track_data[:times], track_data[:lons], start_time, end_time, delta_time
+				lat_data = float_calculation.recalculate track_data[:times], track_data[:lats], start_time, end_time, delta_time
+				lon_data = float_calculation.recalculate track_data[:times], track_data[:lons], start_time, end_time, delta_time
+				recalculated_points = point_calculation.recalculate track_data[:times], track_data[:points], start_time, end_time, delta_time
 
 				@data[idx][:lat_points] = lat_data
 				@data[idx][:lon_points] = lon_data
 				@data[idx][:type] = track_data[:type]
+				@data[idx][:points] = recalculated_points
 			end
 			puts "Data preparation complete"
 		end

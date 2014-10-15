@@ -29,7 +29,3 @@ module DoPracy
 		end
 	end
 end
-
-
-      #<trkpt lat="54.500128" lon="18.448622">
-        #<time>2014-09-29T05:02:38Z</time>

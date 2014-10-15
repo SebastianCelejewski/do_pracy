@@ -2,8 +2,8 @@ module DoPracy
 
 	class Calculation
 
-		def initialize averager
-			@averager = averager
+		def initialize interpolator
+			@interpolator = interpolator
 		end
 
 		def recalculate(times, values, start_time, end_time, delta_time)
@@ -11,7 +11,7 @@ module DoPracy
 			first_time = times.first
 			last_time = times.last
 
-			reader = SmartReader.new(times, values, @averager)
+			reader = SmartReader.new(times, values, @interpolator)
 
 			result = Hash.new
 

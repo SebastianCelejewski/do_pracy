@@ -10,10 +10,7 @@ module DoPracy
 			@start_time = 5
 			@end_time = 15
 			@delta_time = 0.5
-			averager = Proc.new do |x, y, delta|
-				x + delta*(y-x)
-			end
-			@calculator = Calculation.new averager
+			@calculator = Calculation.new FloatInterpolator.new
 			@result = @calculator.recalculate(@times, @values, @start_time, @end_time, @delta_time)
 		end
 

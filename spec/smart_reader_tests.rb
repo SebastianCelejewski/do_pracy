@@ -5,10 +5,7 @@ module DoPracy
 		def setup
 			@times = [10, 11, 12, 13]
 			@values = [7, 9, 22, 5]
-			averager = Proc.new do |x, y, delta|
-				x + delta*(y-x)
-			end
-			@cut = SmartReader.new(@times, @values, averager)
+			@cut = SmartReader.new(@times, @values, FloatInterpolator.new)
 		end
 
 		def test_should_return_null_when_time_is_earlier_than_the_first_point
