@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Endomondo.com" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd" xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <metadata>
+  </metadata>
+  <trk>
+    <trkseg>
+      <trkpt lat="54.500128" lon="18.448622">
+        <time>2014-09-29T10:00:00Z</time>
+        <type>bicycle</type>
+      </trkpt>
+      <trkpt lat="54.500128" lon="18.448622">
+        <ele>176.4</ele>
+        <time>2014-09-29T010:01:00Z</time>
+      </trkpt>
+      <trkpt lat="54.500256" lon="18.449197">
+        <ele>176.1</ele>
+        <time>2014-09-29T10:02:00Z</time>
+        <type>car</type>
+      </trkpt>
+     </trkseg>
+  </trk>
+</gpx>

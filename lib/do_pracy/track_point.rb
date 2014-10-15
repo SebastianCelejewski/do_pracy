@@ -7,7 +7,7 @@ module DoPracy
 		attr_reader :time
 		attr_reader	:lon
 		attr_reader	:lat
-		attr_reader	:type
+		attr_accessor :type
 
 		def initialize (time, lon, lat, type)
 			@time = time

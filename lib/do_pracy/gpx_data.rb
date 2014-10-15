@@ -44,6 +44,12 @@ module DoPracy
 				times = xml.xpath("//gpx:trkpt/gpx:time","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| move_to_single_day(Time.parse(node.content))}
 				points = xml.xpath("//gpx:trkpt","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| TrackPoint.from_node node }
 
+				points.inject (:unknown) do |type, track_point|
+					current_type = track_point.type
+					track_point.type = type if track_point.type == :unknown
+					track_point.type
+				end
+
 				lat_range = Range.new(lats.min, lats.max)
 				lon_range = Range.new(lons.min, lons.max)
 				time_range = Range.new(times.min, times.max)
@@ -82,6 +88,8 @@ module DoPracy
 			float_calculation = Calculation.new @float_interpolator
 			point_calculation = Calculation.new @track_point_interpolator
 
+			result = []
+
 			(0...@data.length).each do |idx|
 				track_data = @data[idx]
 
@@ -95,8 +103,11 @@ module DoPracy
 				@data[idx][:lon_points] = lon_data
 				@data[idx][:type] = track_data[:type]
 				@data[idx][:points] = recalculated_points
+				result << recalculated_points
 			end
+
 			puts "Data preparation complete"
+			return result
 		end
 
 		def get(employee_idx, time_step)
