@@ -1,6 +1,6 @@
 module DoPracy
 
-	class RangeTests < MiniTest::Unit::TestCase
+	class RangeTests < MiniTest::Test
 
 		def test_non_empty_range_should_have_min_value
 			range = Range.new 1, 2

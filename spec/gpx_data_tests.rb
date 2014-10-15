@@ -1,6 +1,6 @@
 module DoPracy
 
-	class GpxDataTests < MiniTest::Unit::TestCase
+	class GpxDataTests < MiniTest::Test
 
 		def setup
 			@gpxData = GpxData.new

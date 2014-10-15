@@ -1,6 +1,6 @@
 module DoPracy
 
-	class QueueTests < MiniTest::Unit::TestCase
+	class QueueTests < MiniTest::Test
 
 		def test_empty_queue_should_return_nil_for_each_index
 			queue = PointsQueue.new (3)
