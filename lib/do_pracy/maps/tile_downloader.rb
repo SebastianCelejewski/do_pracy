@@ -1,3 +1,6 @@
+require 'uri'
+require 'net/http'
+
 module DoPracy
 
 	class TileDownloader

@@ -2,6 +2,8 @@ module DoPracy
 	class AnimationWindow < Gosu::Window
 		def initialize width, height, background_image_file_path, start_time, end_time, time_step
 			super width, height, false
+			@width = width
+			@height = height
 			self.caption = "Gosu Tutorial Game"
 			@background_image = Gosu::Image.new(self, background_image_file_path, true)
 			@players = []
