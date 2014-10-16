@@ -6,6 +6,9 @@ module DoPracy
 			@window = window
 			@hour_hand = Gosu::Image.new(window, "./images/icons/hour_hand.png", false)
 			@minute_hand = Gosu::Image.new(window, "./images/icons/minute_hand.png", false)
+			puts "Loading font..."
+			@font = Gosu::Font.new(window, "Times New Roman", 24)
+			puts "Font loaded."
 		end
 
 		def update(time)
@@ -17,8 +20,9 @@ module DoPracy
 		end
 
 		def draw
-			@hour_hand.draw_rot(100, 100, 2, @hour_angle)
-			@minute_hand.draw_rot(100, 100, 2, @minute_angle)
+#			@hour_hand.draw_rot(100, 100, 2, @hour_angle)
+#			@minute_hand.draw_rot(100, 100, 2, @minute_angle)
+			@font.draw("#{@hour}:%02d" % @minute, 10, 10, 2, 1, 1, 0xff000000)
 		end
 	end
 end

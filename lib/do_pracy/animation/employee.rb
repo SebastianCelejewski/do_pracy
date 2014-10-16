@@ -4,16 +4,20 @@ module DoPracy
 		$queue_length = 40
 		$number_of_dots = 20
 
-		def initialize(window, transformer, track_data)
+		def initialize(window, name, transformer, track_data)
+			@window = window
+			@name = name
+			@transformer = transformer
+			@track_data = track_data
+
 			@dots = []
 			(0...$number_of_dots).each do |i|
 				ii = "%02d" % i
 				@dots << Gosu::Image.new(window, "./images/dot-#{ii}.png", false)
 			end
-			@window = window
 			@points = PointsQueue.new $queue_length
-			@transformer = transformer
-			@track_data = track_data
+
+			@font = Gosu::Font.new(window, "Times New Roman", 24)
 		end
 
 		def load_image (window, name)
@@ -28,6 +32,10 @@ module DoPracy
 				@lon = track_point.lon
 				@type = track_point.type
 				@points.push ({:lat => @lat, :lon => @lon})
+				@visible = true
+			else
+				@visible = false
+				@points.push ({:lat => nil, :lon => nil})
 			end
 		end
 
@@ -45,20 +53,21 @@ module DoPracy
 				end
 			end
 
-			position = transform @lon, @lat
-			if position != nil
-				x = position[:x]
-				y = position[:y]
+			if (@visible)
+				position = transform @lon, @lat
+				if position != nil
+					x = position[:x]
+					y = position[:y]
 
-				image_name = "#{@type}.png"
-				if image_name == @last_image_name
-					@last_image.draw_rot(position[:x], position[:y], 2, 0) if position != nil
-				else
-					@last_image_name = image_name
-					@last_image=load_image @window, "#{@type}.png"
-					@last_image.draw_rot(position[:x], position[:y], 2, 0) if position != nil
+					image_name = "#{@type}.png"
+					if image_name == @last_image_name
+						@last_image.draw_rot(position[:x], position[:y], 2, 0) if position != nil
+					else
+						@last_image_name = image_name
+						@last_image=load_image @window, "#{@type}.png"
+						@last_image.draw_rot(position[:x], position[:y], 2, 0) if position != nil
+					end
 				end
-				#@image.draw_rot(position[:x], position[:y], 2, 0) if position != nil
 			end
 		end
 

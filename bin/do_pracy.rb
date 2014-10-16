@@ -49,7 +49,8 @@ module DoPracy
 	puts "Creating employees"
 	(0...gpxData.length).each do |employee|
 		puts "Creating object #{employee}"
-		window.add_player Employee.new(window, transformer, track_data[employee])
+		name = employee.to_s
+		window.add_player Employee.new(window, name, transformer, track_data[employee])
 	end
 
 	clock = Clock.new window
