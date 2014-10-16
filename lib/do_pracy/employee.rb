@@ -4,7 +4,7 @@ module DoPracy
 		$queue_length = 40
 		$number_of_dots = 20
 
-		def initialize(window, data, transformer)
+		def initialize(window, data, transformer, track_data)
 			@dots = []
 			(0...$number_of_dots).each do |i|
 				ii = "%02d" % i
@@ -14,6 +14,7 @@ module DoPracy
 			@window = window
 			@points = PointsQueue.new $queue_length
 			@transformer = transformer
+			@track_data = track_data
 		end
 
 		def load_image (window, name)
