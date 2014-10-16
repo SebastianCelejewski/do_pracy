@@ -5,15 +5,15 @@
   <trk>
     <trkseg>
       <trkpt lat="54.3187891" lon="18.5853059">
-        <time>2014-09-29T10:00:00Z</time>
+        <time>2014-09-29T10:03:00Z</time>
       </trkpt>
       <trkpt lat="54.3187891" lon="18.5853059">
         <ele>50.2</ele>
-        <time>2014-09-29T10:01:00Z</time>
+        <time>2014-09-29T10:04:00Z</time>
       </trkpt>
       <trkpt lat="54.3188808" lon="18.5850835">
         <ele>49.1</ele>
-        <time>2014-09-29T10:02:00Z</time>
+        <time>2014-09-29T10:05:00Z</time>
       </trkpt>
     </trkseg>
   </trk>

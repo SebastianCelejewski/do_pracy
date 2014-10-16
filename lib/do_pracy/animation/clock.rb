@@ -2,16 +2,13 @@ module DoPracy
 
 	class Clock
 
-		def initialize window, data
+		def initialize window
 			@window = window
-			@data = data
 			@hour_hand = Gosu::Image.new(window, "./images/icons/hour_hand.png", false)
 			@minute_hand = Gosu::Image.new(window, "./images/icons/minute_hand.png", false)
 		end
 
-		def update(idx)
-			time = @data[idx]
-			
+		def update(time)
 			@hour = time.hour + 2
 			@minute = time.min
 

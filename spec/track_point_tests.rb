@@ -1,6 +1,5 @@
 require 'minitest/autorun'
 require 'nokogiri'
-require './lib/do_pracy/track_point'
 
 module DoPracy
 

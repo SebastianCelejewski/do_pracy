@@ -13,22 +13,15 @@ module DoPracy
 
 		end
 
-		def test_when_time_is_before_employee_appeared_should_return_null_lon
-			time = Time.parse("2014-10-01T06:26:35Z")
-			data = @gpxData.get(0, time)
-			assert_equal nil, data[:lon]
-		end
-
-		def test_when_time_is_before_employee_appeared_should_return_null_lat
-			time = Time.parse("2014-10-01T06:26:35Z")
-			data = @gpxData.get(0, time)
-			assert_equal nil, data[:lat]
+		def test_when_time_is_before_employee_appeared_should_return_null
+			time = Time.parse("2014-09-29T10:01:15Z")
+			assert_equal nil, @result[1][time]
 		end
 
 		def test_when_type_is_not_provided_in_the_track_point_it_should_complement_it_from_previous_track_points
 			refute_nil @result
 			refute_nil @result[0]
-			time = Time.parse("2014-10-01T10:00:00Z")
+			time = Time.parse("2014-09-29T10:00:00Z")
 			refute_nil @result[0][time]
 			assert_equal "bicycle", @result[0][time].type
 		end	

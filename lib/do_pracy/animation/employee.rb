@@ -28,10 +28,6 @@ module DoPracy
 				@lon = track_point.lon
 				@type = track_point.type
 				@points.push ({:lat => @lat, :lon => @lon})
-				@visible = true
-			else
-				@visible = false
-				@points.push ({:lat => nil, :lon => nil})
 			end
 		end
 
@@ -49,21 +45,20 @@ module DoPracy
 				end
 			end
 
-			if (@visible)
-				position = transform @lon, @lat
-				if position != nil
-					x = position[:x]
-					y = position[:y]
+			position = transform @lon, @lat
+			if position != nil
+				x = position[:x]
+				y = position[:y]
 
-					image_name = "#{@type}.png"
-					if image_name == @last_image_name
-						@last_image.draw_rot(position[:x], position[:y], 2, 0) if position != nil
-					else
-						@last_image_name = image_name
-						@last_image=load_image @window, "#{@type}.png"
-						@last_image.draw_rot(position[:x], position[:y], 2, 0) if position != nil
-					end
+				image_name = "#{@type}.png"
+				if image_name == @last_image_name
+					@last_image.draw_rot(position[:x], position[:y], 2, 0) if position != nil
+				else
+					@last_image_name = image_name
+					@last_image=load_image @window, "#{@type}.png"
+					@last_image.draw_rot(position[:x], position[:y], 2, 0) if position != nil
 				end
+				#@image.draw_rot(position[:x], position[:y], 2, 0) if position != nil
 			end
 		end
 

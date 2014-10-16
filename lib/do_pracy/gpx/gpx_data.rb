@@ -13,7 +13,6 @@ module DoPracy
 			@time_range = Range.new
 			@length = 0
 			@track_point_interpolator = TrackPointInterpolator.new
-			@float_interpolator = FloatInterpolator.new
 		end
 
 		def move_to_single_day(time) 
@@ -41,7 +40,7 @@ module DoPracy
 				xml = Nokogiri::XML(open(f))
 				lats = xml.xpath("//gpx:trkpt/@lat","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| node.content.to_f}
 				lons = xml.xpath("//gpx:trkpt/@lon","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| node.content.to_f}
-				times = xml.xpath("//gpx:trkpt/gpx:time","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| move_to_single_day(Time.parse(node.content))}
+				times = xml.xpath("//gpx:trkpt/gpx:time","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| Time.parse(node.content)}
 				points = xml.xpath("//gpx:trkpt","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| TrackPoint.from_node node }
 
 				points.inject (:unknown) do |type, track_point|
@@ -65,9 +64,6 @@ module DoPracy
 				track_data[:start_time] = @time_min
 				track_data[:end_time] = @time_max
 				track_data[:times] = times
-				track_data[:lats] = lats
-				track_data[:lons] = lons
-				track_data[:type] = type
 				track_data[:points] = points
 
 				@data[idx] = track_data
@@ -85,39 +81,19 @@ module DoPracy
 			delta_time = (@time_range.max - @time_range.min ) / number_of_steps
 
 			puts "Start time: #{start_time}, end time: #{end_time}, delta time: #{delta_time}"
-			float_calculation = Calculation.new @float_interpolator
 			point_calculation = Calculation.new @track_point_interpolator
 
 			result = []
 
 			(0...@data.length).each do |idx|
 				track_data = @data[idx]
-
 				puts "Calculating track #{idx}"
-
-				lat_data = float_calculation.recalculate track_data[:times], track_data[:lats], start_time, end_time, delta_time
-				lon_data = float_calculation.recalculate track_data[:times], track_data[:lons], start_time, end_time, delta_time
 				recalculated_points = point_calculation.recalculate track_data[:times], track_data[:points], start_time, end_time, delta_time
-
-				@data[idx][:lat_points] = lat_data
-				@data[idx][:lon_points] = lon_data
-				@data[idx][:type] = track_data[:type]
-				@data[idx][:points] = recalculated_points
 				result << recalculated_points
 			end
 
 			puts "Data preparation complete"
 			return result
-		end
-
-		def get(employee_idx, time_step)
-			track_data = @data[employee_idx]
-
-			lat = track_data[:lat_points][time_step]
-			lon = track_data[:lon_points][time_step]
-			type = track_data[:type]
-
-			return {:lat => lat, :lon => lon, :type => type }
 		end
 	end
 end

@@ -28,7 +28,7 @@ module DoPracy
 	gpxData = GpxData.new
 
 	gpxData.load_data($data_dir)
-	gpxData.prepare number_of_steps
+	track_data = gpxData.prepare number_of_steps
 
 	transformer = Transformer.new(gpxData.lat_range, gpxData.lon_range, zoom)
 
@@ -44,30 +44,15 @@ module DoPracy
 	height = (tile_range[:y_range] + 1) * 256
 
 	puts "\nCreating animation window"
-	window = AnimationWindow.new(width, height, base_map,  number_of_steps)
-
-	images = Images.new window
+	window = AnimationWindow.new(width, height, base_map, start_time, end_time, time_step)
 
 	puts "Creating employees"
 	(0...gpxData.length).each do |employee|
 		puts "Creating object #{employee}"
-		time = start_time
-		points = []
-		while (time < end_time)
-			points << gpxData.get(employee, time)
-			time += time_step
-		end
-		window.add_player Employee.new(window, points, transformer)
+		window.add_player Employee.new(window, transformer, track_data[employee])
 	end
 
-	clock_times = []
-	time = start_time
-	while (time < end_time)
-		clock_times << time
-		time += time_step
-	end
-
-	clock = Clock.new window, clock_times
+	clock = Clock.new window
 
 	window.add_clock clock
 
