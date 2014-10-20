@@ -5,7 +5,6 @@ module DoPracy
 	puts "Do pracy, rodacy!\n"
 
 	$data_dir = './data'
-	$temp_dir = "./temp"
 	$images_dir = "./images"
 
 	if !Dir.exist?($data_dir)
@@ -23,7 +22,7 @@ module DoPracy
 	gpx_data.load_data($data_dir)
 	track_data = gpx_data.prepare number_of_steps
 
-	map_provider = TileDownloader.new zoom, gpx_data.lon_range, gpx_data.lat_range
+	map_provider = ServerMapProvider.new zoom, gpx_data.lon_range, gpx_data.lat_range
 	transformer = map_provider.get_transformer
 
 	puts "Creating base map"

@@ -3,7 +3,7 @@ require 'net/http'
 
 module DoPracy
 
-	class TileDownloader
+	class ServerMapProvider
 
 		$file_name_pattern = "tile-%s-%s-%s.png"
 		$url_pattern = "http://tile.openstreetmap.org/%s/%s/%s.png"
