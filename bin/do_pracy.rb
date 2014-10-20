@@ -22,7 +22,8 @@ module DoPracy
 	gpx_data.load_data($data_dir)
 	track_data = gpx_data.prepare number_of_steps
 
-	map_provider = ServerMapProvider.new zoom, gpx_data.lon_range, gpx_data.lat_range
+	#map_provider = ServerMapProvider.new zoom, gpx_data.lon_range, gpx_data.lat_range
+	map_provider = FileMapProvider.new "h48_TR200.json"
 	transformer = map_provider.get_transformer
 
 	puts "Creating base map"

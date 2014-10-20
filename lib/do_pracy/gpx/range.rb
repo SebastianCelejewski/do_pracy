@@ -24,7 +24,10 @@ module DoPracy
 			return x if y == nil
 			return y if x == nil
 			return [x,y].max
+		end
 
+		def length
+			@max - @min
 		end
 
 		def to_s
