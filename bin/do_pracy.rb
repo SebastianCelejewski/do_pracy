@@ -4,10 +4,7 @@ module DoPracy
 
 	puts "Do pracy, rodacy!\n"
 
-	$file_name_pattern = "tile-%s-%s-%s.png"
-	$url_pattern = "http://tile.openstreetmap.org/%s/%s/%s.png"
 	$data_dir = './data'
-	$tiles_dir = './tiles'
 	$temp_dir = "./temp"
 	$images_dir = "./images"
 
@@ -15,9 +12,6 @@ module DoPracy
 		puts "Create ./data directory and put gpx tracks there."
 		exit
 	end
-
-	Dir.mkdir($temp_dir) if !Dir.exist?($temp_dir)
-	Dir.mkdir($tiles_dir) if !Dir.exist?($tiles_dir)
 
 	puts "Initialization started"
 

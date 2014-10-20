@@ -5,12 +5,20 @@ module DoPracy
 
 	class TileDownloader
 
+		$file_name_pattern = "tile-%s-%s-%s.png"
+		$url_pattern = "http://tile.openstreetmap.org/%s/%s/%s.png"
+		$tiles_dir = './tiles'
+		$temp_dir = "./temp"
+
 		def initialize zoom, lon_range, lat_range
 			@zoom = zoom
 			@lon_range = lon_range
 			@lat_range = lat_range
 			@transformer = Transformer.new(lat_range, lon_range, zoom)
 			@tile_range = @transformer.get_tile_range
+
+			Dir.mkdir($temp_dir) if !Dir.exist?($temp_dir)
+			Dir.mkdir($tiles_dir) if !Dir.exist?($tiles_dir)
 		end
 
 		def get_map_image
