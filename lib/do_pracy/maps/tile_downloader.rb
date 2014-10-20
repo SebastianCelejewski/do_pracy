@@ -14,7 +14,7 @@ module DoPracy
 			@zoom = zoom
 			@lon_range = lon_range
 			@lat_range = lat_range
-			@transformer = Transformer.new(lat_range, lon_range, zoom)
+			@transformer = TileTransformer.new(lat_range, lon_range, zoom)
 			@tile_range = @transformer.get_tile_range
 
 			Dir.mkdir($temp_dir) if !Dir.exist?($temp_dir)

@@ -1,5 +1,5 @@
 module DoPracy
-	class Transformer
+	class TileTransformer
 
 		attr_reader :tile_range
 
