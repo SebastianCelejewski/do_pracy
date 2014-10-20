@@ -5,11 +5,19 @@ module DoPracy
 
 	class TileDownloader
 
-		def create_base_map (zoom, tile_range)
-			x1 = tile_range[:x_min]
-			x2 = tile_range[:x_max]
-			y1 = tile_range[:y_max]
-			y2 = tile_range[:y_min]
+		def initialize zoom, lon_range, lat_range
+			@zoom = zoom
+			@lon_range = lon_range
+			@lat_range = lat_range
+			@transformer = Transformer.new(lat_range, lon_range, zoom)
+			@tile_range = @transformer.get_tile_range
+		end
+
+		def get_map_image
+			x1 = @tile_range[:x_min]
+			x2 = @tile_range[:x_max]
+			y1 = @tile_range[:y_max]
+			y2 = @tile_range[:y_min]
 
 			puts "Creating base map for range (#{x1},#{y1}) (#{x2},#{y2})"
 
@@ -19,7 +27,7 @@ module DoPracy
 			for j in y1..y2
 				horizontal_merge_command = "convert "
 				for i in x1..x2
-					tile = get_tile(zoom, i, j)
+					tile = get_tile(@zoom, i, j)
 					horizontal_merge_command += "#{tile} "
 				end
 				row_file = "#{$temp_dir}/row-#{row_idx}.png"
@@ -33,6 +41,18 @@ module DoPracy
 			return merged_file_name
 		end
 
+		def get_transformer
+			@transformer
+		end
+
+		def get_width
+			(@tile_range[:x_range] + 1) * 256
+		end
+
+		def get_height
+			(@tile_range[:y_range] + 1) * 256
+		end
+
 		def get_tile(zoom, x, y)
 			puts "Getting tile #{zoom}, #{x}, #{y}"
 			file_name = $file_name_pattern % [zoom, x, y]
@@ -43,7 +63,7 @@ module DoPracy
 				File.open(file_path, 'wb') { |f| f.write(image) }
 			end
 
-			return file_path				
+			return file_path
 		end
 
 		def download_tile (url)

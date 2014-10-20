@@ -4,15 +4,10 @@ module DoPracy
 		attr_reader :tile_range
 
 		def initialize lat_range, lon_range, zoom
-
-			@lat_max = lat_range.max
-			@lat_min = lat_range.min
-			@lon_min = lon_range.min
-			@lon_max = lon_range.max
+			@lat_range = lat_range
+			@lon_range = lon_range
 			@zoom = zoom
-
-			@reference = get_tile_number(@lat_max, @lon_min)
-			calculate_tile_range lat_range, lon_range
+			@reference = get_tile_number(lat_range.max, lon_range.min)
 		end
 
 		def get lat, lon
@@ -22,12 +17,12 @@ module DoPracy
 			{:x => result_x*256, :y => result_y*256}
 		end
 
-		def calculate_tile_range (lat_range, lon_range)
-			puts "\nCalculating tile range for latitudes #{lat_range} and lontitudes #{lon_range}"
-			tile_min = get_tile_number lat_range.min, lon_range.min
-			tile_max = get_tile_number lat_range.max, lon_range.max
+		def get_tile_range
+			puts "\nCalculating tile range for latitudes #{@lat_range} and lontitudes #{@lon_range}"
+			tile_min = get_tile_number @lat_range.min, @lon_range.min
+			tile_max = get_tile_number @lat_range.max, @lon_range.max
 
-			@tile_range = {
+			tile_range = {
 				:x_min => tile_min[:x].to_i,
 				:x_max => tile_max[:x].to_i,
 				:y_min => tile_min[:y].to_i,
@@ -37,6 +32,8 @@ module DoPracy
 			}
 
 			puts "Calculated tiles range: #{@tile_range}"
+
+			return tile_range
 		end
 
 		def get_tile_number lat, lon

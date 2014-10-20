@@ -21,40 +21,37 @@ module DoPracy
 
 	puts "Initialization started"
 
-	zoom = 10
+	zoom = 11
 	number_of_steps = 5000
 
-	downloader = TileDownloader.new
-	gpxData = GpxData.new
+  puts "Loading GPS data"
+	gpx_data = GpxData.new
+	gpx_data.load_data($data_dir)
+	track_data = gpx_data.prepare number_of_steps
 
-	gpxData.load_data($data_dir)
-	track_data = gpxData.prepare number_of_steps
-
-	transformer = Transformer.new(gpxData.lat_range, gpxData.lon_range, zoom)
-
-	start_time = gpxData.time_range.min
-	end_time = gpxData.time_range.max
-	time_step = (gpxData.time_range.max - gpxData.time_range.min) / number_of_steps
+	map_provider = TileDownloader.new zoom, gpx_data.lon_range, gpx_data.lat_range
+	transformer = map_provider.get_transformer
 
 	puts "Creating base map"
-	tile_range = transformer.tile_range
-	base_map = downloader.create_base_map(zoom, tile_range)
-
-	width = (tile_range[:x_range] + 1) * 256
-	height = (tile_range[:y_range] + 1) * 256
+	map_image = map_provider.get_map_image
+	map_width = map_provider.get_width
+	map_height = map_provider.get_height
 
 	puts "\nCreating animation window"
-	window = AnimationWindow.new(width, height, base_map, start_time, end_time, time_step)
+	start_time = gpx_data.time_range.min
+	end_time = gpx_data.time_range.max
+	time_step = (gpx_data.time_range.max - gpx_data.time_range.min) / number_of_steps
+	window = AnimationWindow.new(map_width, map_height, map_image, start_time, end_time, time_step)
 
-	puts "Creating employees"
-	(0...gpxData.length).each do |employee|
+	puts "Creating animation objects"
+	(0...gpx_data.length).each do |employee|
 		puts "Creating object #{employee}"
 		name = employee.to_s
 		window.add_player Employee.new(window, name, transformer, track_data[employee])
 	end
 
+  puts "Creating clock"
 	clock = Clock.new window
-
 	window.add_clock clock
 
 	puts "Initialization complete"
