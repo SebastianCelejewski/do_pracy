@@ -4,7 +4,7 @@ module DoPracy
 			super width, height, false
 			@width = width
 			@height = height
-			self.caption = "Gosu Tutorial Game"
+			self.caption = "Do pracy (gpx data visualization)"
 			@background_image = Gosu::Image.new(self, background_image_file_path, true)
 			@players = []
 			@start_time = start_time
