@@ -12,6 +12,9 @@ module DoPracy
 			@time_step = time_step
 
 			@time = @start_time
+			@delay_length = 300
+			@startup_delay = 0
+			@shutdown_delay = 0
 		end
 
 		def add_player player
@@ -23,10 +26,25 @@ module DoPracy
 		end
 
 		def update
-			@players.each { |player| player.update(@time)}
 			@clock.update @time
+
+			if @startup_delay < @delay_length
+				@startup_delay += 1
+				return
+			end
+
+			@players.each { |player| player.update(@time)}
+
 			@time = @time + @time_step
-			@time = @start_time if @time >= @end_time
+
+			if @time >= @end_time
+				@shutdown_delay += 1
+				if @shutdown_delay >= @delay_length
+					@time = @start_time 
+					@shutdown_delay = 0
+					@startup_delay = 0
+				end
+			end
 		end
 
 		def draw
