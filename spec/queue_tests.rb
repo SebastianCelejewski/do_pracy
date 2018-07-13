@@ -5,9 +5,9 @@ module DoPracy
 		def test_empty_queue_should_return_nil_for_each_index
 			queue = PointsQueue.new (3)
 
-			assert_equal nil, queue[0]
-			assert_equal nil, queue[1]
-			assert_equal nil, queue[2]
+			assert_nil queue[0]
+			assert_nil queue[1]
+			assert_nil queue[2]
 		end
 
 		def test_queue_should_return_last_pushed_element_for_first_index
@@ -15,8 +15,8 @@ module DoPracy
 			queue.push 'Franek'
 
 			assert_equal 'Franek', queue[0]
-			assert_equal nil, queue[1]
-			assert_equal nil, queue[2]
+			assert_nil queue[1]
+			assert_nil queue[2]
 		end
 
 		def test_queue_should_return_one_befre_last_pushed_element_for_second_index
@@ -26,7 +26,7 @@ module DoPracy
 
 			assert_equal 'Edek', queue[0]
 			assert_equal 'Franek', queue[1]
-			assert_equal nil, queue[2]
+			assert_nil queue[2]
 		end
 
 		def test_pushing_new_element_to_a_full_queue_should_eliminate_the_oldest_value

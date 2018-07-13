@@ -6,12 +6,14 @@ module DoPracy
 		attr_reader :lon_range
 		attr_reader :time_range
 		attr_reader :length
+		attr_reader :name
 
 		def initialize
 			@lat_range = Range.new
 			@lon_range = Range.new
 			@time_range = Range.new
 			@length = 0
+			@name = :unknown
 			@track_point_interpolator = TrackPointInterpolator.new
 		end
 
@@ -22,20 +24,9 @@ module DoPracy
 			return Time.utc(2014,10,01,hour,minute,second)
 		end
 
-		def get_type file_name
-
-			return :unknown if file_name == nil
-
-			if /-([^_]*)\./.match(file_name)
-				return /-([^_]*)\./.match(file_name)[1]
-			else
-				return :unknown
-			end
-		end
-
 		def load_data(data_directory)
 			puts "\nLoading track data from #{data_directory}"
-			@data = Hash.new
+			raw_track_data = Hash.new
 			Dir["#{data_directory}/*.gpx"].each_with_index do |f, idx|
 				xml = Nokogiri::XML(open(f))
 				lats = xml.xpath("//gpx:trkpt/@lat","gpx" => "http://www.topografix.com/GPX/1/1").map { |node| node.content.to_f}
@@ -52,9 +43,9 @@ module DoPracy
 				lat_range = Range.new(lats.min, lats.max)
 				lon_range = Range.new(lons.min, lons.max)
 				time_range = Range.new(times.min, times.max)
-				type = get_type f
+				name = File.basename(f).split(/\./)[-2]
 
-				puts "Track #{idx}, file: #{f}, lon range: #{lon_range}, lat range: #{lat_range}, time_range: #{time_range}, type: #{type}"
+				puts "Track #{idx}, file: #{f}, name: #{name}, lon range: #{lon_range}, lat range: #{lat_range}, time_range: #{time_range}"
 
 				@lat_range = @lat_range + lat_range
 				@lon_range = @lon_range + lon_range
@@ -65,16 +56,18 @@ module DoPracy
 				track_data[:end_time] = @time_max
 				track_data[:times] = times
 				track_data[:points] = points
+				track_data[:name] = name
 
-				@data[idx] = track_data
+				raw_track_data[idx] = track_data
 				@length+=1
 			end
 
-			puts "Totals: tracks: #{@data.length}, lon range: #{@lon_range}, lat range: #{@lat_range}, time_range: #{@time_range}"
+			puts "Totals: tracks: #{raw_track_data.length}, lon range: #{@lon_range}, lat range: #{@lat_range}, time_range: #{@time_range}"
 			puts "Track loading complete."
+			return raw_track_data
 		end
 
-		def prepare(number_of_steps)
+		def prepare(raw_track_data, number_of_steps)
 			puts "\nPreparing data to animate #{number_of_steps} frames."
 			start_time = @time_range.min
 			end_time = @time_range.max
@@ -85,8 +78,8 @@ module DoPracy
 
 			result = []
 
-			(0...@data.length).each do |idx|
-				track_data = @data[idx]
+			(0...raw_track_data.length).each do |idx|
+				track_data = raw_track_data[idx]
 				puts "Calculating track #{idx}"
 				recalculated_points = point_calculation.recalculate track_data[:times], track_data[:points], start_time, end_time, delta_time
 				result << recalculated_points

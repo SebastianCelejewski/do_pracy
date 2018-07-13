@@ -14,19 +14,19 @@ module DoPracy
 
 		def test_empty_range_should_not_have_min_value
 			range = Range.new
-			assert_equal nil, range.min
+			assert_nil range.min
 		end
 
 		def test_empty_range_should_have_max_value
 			range = Range.new
-			assert_equal nil, range.max
+			assert_nil range.max
 		end
 
 		def test_sum_of_two_empty_ranges_is_empty
 			r1 = Range.new
 			r2 = Range.new
-			assert_equal nil, (r1+r2).min
-			assert_equal nil, (r1+r2).max
+			assert_nil (r1+r2).min
+			assert_nil (r1+r2).max
 		end
 
 		def test_min_of_sum_of_two_non_empty_ranges_is_min_of_their_mins

@@ -27,8 +27,8 @@ module DoPracy
 	downloader = TileDownloader.new
 	gpxData = GpxData.new
 
-	gpxData.load_data($data_dir)
-	track_data = gpxData.prepare number_of_steps
+	raw_track_data = gpxData.load_data($data_dir)
+	track_data = gpxData.prepare raw_track_data, number_of_steps
 
 	transformer = Transformer.new(gpxData.lat_range, gpxData.lon_range, zoom)
 
@@ -47,10 +47,10 @@ module DoPracy
 	window = AnimationWindow.new(width, height, base_map, start_time, end_time, time_step)
 
 	puts "Creating employees"
-	(0...gpxData.length).each do |employee|
-		puts "Creating object #{employee}"
-		name = employee.to_s
-		window.add_player Employee.new(window, name, transformer, track_data[employee])
+	(0...gpxData.length).each do |idx|
+		puts "Creating object #{idx}"
+		name = raw_track_data[idx][:name]
+		window.add_player Employee.new(window, name, transformer, track_data[idx])
 	end
 
 	clock = Clock.new window

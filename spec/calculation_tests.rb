@@ -16,7 +16,7 @@ module DoPracy
 
 		def test_should_return_null_when_time_is_earlier_than_the_first_point
 			set_up
-			assert_equal nil, @result[5.0]
+			assert_nil @result[5.0]
 		end
 
 		def test_should_return_value_of_the_first_point_when_time_points_to_the_first_point

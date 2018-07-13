@@ -68,7 +68,7 @@ module DoPracy
 						@last_image.draw_rot(position[:x], position[:y], 2, 0) if position != nil
 					end
 
-#					@font.draw(@name, x + 20, y, 2, 1, 1)
+					@font.draw(@name, x + 20, y, 2, 1, 1, 0xff_000000)
 
 				end
 

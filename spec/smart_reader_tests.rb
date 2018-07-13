@@ -9,7 +9,7 @@ module DoPracy
 		end
 
 		def test_should_return_null_when_time_is_earlier_than_the_first_point
-			assert_equal nil, @cut.get(8)
+			assert_nil @cut.get(8)
 		end
 
 		def test_should_return_value_of_the_first_point_when_time_points_to_the_first_point
