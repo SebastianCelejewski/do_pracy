@@ -21,7 +21,7 @@ module DoPracy
 
 	puts "Initialization started"
 
-	zoom = 10
+	zoom = 12
 	number_of_steps = 5000
 
 	downloader = TileDownloader.new
