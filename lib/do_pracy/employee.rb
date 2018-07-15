@@ -15,7 +15,7 @@ module DoPracy
 			@dots = []
 			(0...$number_of_dots).each do |i|
 				ii = "%02d" % i
-				@dots << Gosu::Image.new(window, "./images/dot-#{ii}.png", false)
+				@dots << Gosu::Image.new("./images/dot-#{ii}.png", false)
 			end
 			@points = PointsQueue.new $queue_length
 
@@ -24,7 +24,7 @@ module DoPracy
 
 		def load_image (window, name)
 			puts "Loading image #{name}"
-			Gosu::Image.new(window, "./images/icons/#{name}", false)		
+			Gosu::Image.new("./images/icons/#{name}", false)		
 		end
 
 		def update(time)

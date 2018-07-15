@@ -4,8 +4,8 @@ module DoPracy
 
 		def initialize window
 			@window = window
-			@hour_hand = Gosu::Image.new(window, "./images/icons/hour_hand.png", false)
-			@minute_hand = Gosu::Image.new(window, "./images/icons/minute_hand.png", false)
+			@hour_hand = Gosu::Image.new("./images/icons/hour_hand.png", false)
+			@minute_hand = Gosu::Image.new("./images/icons/minute_hand.png", false)
 			puts "Loading font..."
 			@font = Gosu::Font.new(window, "Times New Roman", 24)
 			puts "Font loaded."

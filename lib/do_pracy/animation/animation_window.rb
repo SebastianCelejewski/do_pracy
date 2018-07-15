@@ -5,7 +5,7 @@ module DoPracy
 			@width = width
 			@height = height
 			self.caption = "Do pracy (gpx data visualization)"
-			@background_image = Gosu::Image.new(self, background_image_file_path, true)
+			@background_image = Gosu::Image.new(background_image_file_path)
 			@players = []
 			@start_time = start_time
 			@end_time = end_time
