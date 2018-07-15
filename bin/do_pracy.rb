@@ -50,7 +50,7 @@ module DoPracy
 	(0...gpxData.length).each do |idx|
 		print "."
 		name = raw_track_data[idx][:name]
-		window.add_player Employee.new(window, name, transformer, track_data[idx], options[:show_tail], options[:show_name])
+		window.add_player Employee.new(window, name, transformer, track_data[idx], options[:show_tails], options[:show_names])
 	end
 	puts ""
 
