@@ -6,10 +6,10 @@ module DoPracy
 
 		def setup
 			@gpxData = GpxData.new
-			@gpxData.load_data("./spec/gpx_data_tests")
+			raw_track_data = @gpxData.load_data("./spec/gpx_data_tests")
 
 			@start_time = @gpxData.time_range.min
-			@result = @gpxData.prepare 4
+			@result = @gpxData.prepare raw_track_data, 4
 
 		end
 
