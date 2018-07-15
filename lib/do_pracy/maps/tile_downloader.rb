@@ -48,7 +48,6 @@ module DoPracy
 		end
 
 		def download_tile (url)
-			puts "Downloading tile #{url}"
 			uri = URI(url)
 			Net::HTTP.start(uri.host) do |http|
 				resp = http.get(uri.path)
