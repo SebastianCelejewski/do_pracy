@@ -25,7 +25,7 @@ module DoPracy
 		end
 
 		def load_data(data_directory)
-			puts "\nLoading track data from #{data_directory}"
+			print "Loading track data from #{data_directory}: "
 			raw_track_data = Hash.new
 			Dir["#{data_directory}/*.gpx"].each_with_index do |f, idx|
 				xml = Nokogiri::XML(open(f))
@@ -45,7 +45,7 @@ module DoPracy
 				time_range = Range.new(times.min, times.max)
 				name = File.basename(f).split(/\./)[-2]
 
-				puts "Track #{idx}, file: #{f}, name: #{name}, lon range: #{lon_range}, lat range: #{lat_range}, time_range: #{time_range}"
+				print "."
 
 				@lat_range = @lat_range + lat_range
 				@lon_range = @lon_range + lon_range
@@ -62,8 +62,11 @@ module DoPracy
 				@length+=1
 			end
 
-			puts "Totals: tracks: #{raw_track_data.length}, lon range: #{@lon_range}, lat range: #{@lat_range}, time_range: #{@time_range}"
-			puts "Track loading complete."
+			puts "\nGPS tracks loading complete"
+			puts " - tracks loaded: #{raw_track_data.length}"
+			puts " - longitude range: #{@lon_range}"
+			puts " - latitude range: #{@lat_range}"
+			puts " - time range: #{@time_range}"
 			return raw_track_data
 		end
 
@@ -73,19 +76,23 @@ module DoPracy
 			end_time = @time_range.max
 			delta_time = (@time_range.max - @time_range.min ) / number_of_steps
 
-			puts "Start time: #{start_time}, end time: #{end_time}, delta time: #{delta_time}"
+			puts " - start time: #{start_time}"
+			puts " - end time: #{end_time}"
+			puts " - delta time: #{delta_time}"
 			point_calculation = Calculation.new @track_point_interpolator
 
 			result = []
 
+			print "Calculating tracks: "
+
 			(0...raw_track_data.length).each do |idx|
 				track_data = raw_track_data[idx]
-				puts "Calculating track #{idx}"
+				print "."
 				recalculated_points = point_calculation.recalculate track_data[:times], track_data[:points], start_time, end_time, delta_time
 				result << recalculated_points
 			end
 
-			puts "Data preparation complete"
+			puts "\nData preparation complete"
 			return result
 		end
 	end

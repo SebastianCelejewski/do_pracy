@@ -4,11 +4,13 @@ module DoPracy
 		$queue_length = 40
 		$number_of_dots = 20
 
-		def initialize(window, name, transformer, track_data)
+		def initialize(window, name, transformer, track_data, show_tail, show_name)
 			@window = window
 			@name = name
 			@transformer = transformer
 			@track_data = track_data
+			@show_tail = show_tail
+			@show_name = show_name
 
 			@dots = []
 			(0...$number_of_dots).each do |i|
@@ -45,7 +47,7 @@ module DoPracy
 				lon = @points[idx][:lon]
 				lat = @points[idx][:lat]
 
-				if (lon != nil && lat != nil)
+				if (lon != nil && lat != nil && @show_tail)
 					position = transform lon, lat
 					x = position[:x]
 					y = position[:y]
@@ -68,8 +70,9 @@ module DoPracy
 						@last_image.draw_rot(position[:x], position[:y], 2, 0) if position != nil
 					end
 
-					@font.draw(@name, x + 20, y, 2, 1, 1, 0xff_000000)
-
+					if (@show_name)
+						@font.draw(@name, x + 20, y, 2, 1, 1, 0xff_000000)
+					end
 				end
 
 			end

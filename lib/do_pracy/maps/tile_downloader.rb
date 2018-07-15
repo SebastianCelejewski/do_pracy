@@ -12,7 +12,7 @@ module DoPracy
 			y2 = tile_range[:y_min]
 
 			puts "Creating base map for range (#{x1},#{y1}) (#{x2},#{y2})"
-
+			print "Downloading tiles: "
 			row_idx = 0
 			merged_file_name = "#{$temp_dir}/merged.png"
 			vertical_merge_command = "convert "
@@ -30,11 +30,12 @@ module DoPracy
 			end
 			vertical_merge_command += " -append #{merged_file_name}"
 			`#{vertical_merge_command}`
+			puts "\nMap tiles downloaded"
 			return merged_file_name
 		end
 
 		def get_tile(zoom, x, y)
-			puts "Getting tile #{zoom}, #{x}, #{y}"
+			print "."
 			file_name = $file_name_pattern % [zoom, x, y]
 			file_path = "#{$tiles_dir}/#{file_name}"
 			if !File.exist?(file_path)

@@ -16,13 +16,14 @@ module DoPracy
 		exit
 	end
 
+	command_line_parser = CommandLineParser.new
+	options = command_line_parser.parse
+
 	Dir.mkdir($temp_dir) if !Dir.exist?($temp_dir)
 	Dir.mkdir($tiles_dir) if !Dir.exist?($tiles_dir)
 
-	puts "Initialization started"
-
-	zoom = 12
-	number_of_steps = 5000
+	zoom = options[:zoom]
+	number_of_steps = options[:steps]
 
 	downloader = TileDownloader.new
 	gpxData = GpxData.new
@@ -36,7 +37,6 @@ module DoPracy
 	end_time = gpxData.time_range.max
 	time_step = (gpxData.time_range.max - gpxData.time_range.min) / number_of_steps
 
-	puts "Creating base map"
 	tile_range = transformer.tile_range
 	base_map = downloader.create_base_map(zoom, tile_range)
 
@@ -46,12 +46,13 @@ module DoPracy
 	puts "\nCreating animation window"
 	window = AnimationWindow.new(width, height, base_map, start_time, end_time, time_step)
 
-	puts "Creating employees"
+	print "Creating animation objects: "
 	(0...gpxData.length).each do |idx|
-		puts "Creating object #{idx}"
+		print "."
 		name = raw_track_data[idx][:name]
-		window.add_player Employee.new(window, name, transformer, track_data[idx])
+		window.add_player Employee.new(window, name, transformer, track_data[idx], options[:show_tail], options[:show_name])
 	end
+	puts ""
 
 	clock = Clock.new window
 

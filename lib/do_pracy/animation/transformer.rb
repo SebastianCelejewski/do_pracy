@@ -37,6 +37,7 @@ module DoPracy
 			}
 
 			puts "Calculated tiles range: #{@tile_range}"
+			puts ""
 		end
 
 		def get_tile_number lat, lon
