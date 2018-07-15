@@ -1,8 +1,9 @@
 module DoPracy
 	class Employee
 
-		$queue_length = 40
+		$queue_length = 160
 		$number_of_dots = 20
+		$queue_length_to_dots_count_ratio = $queue_length / $number_of_dots
 
 		def initialize(window, name, transformer, track_data, show_tail, show_name)
 			@window = window
@@ -51,7 +52,7 @@ module DoPracy
 					position = transform lon, lat
 					x = position[:x]
 					y = position[:y]
-					@dots[idx/2].draw_rot(x, y, 1, 0)
+					@dots[idx/$queue_length_to_dots_count_ratio].draw_rot(x, y, 1, 0)
 				end
 			end
 

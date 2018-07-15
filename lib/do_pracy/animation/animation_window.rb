@@ -12,7 +12,7 @@ module DoPracy
 			@time_step = time_step
 
 			@time = @start_time
-			@delay_length = 300
+			@delay_length = 120
 			@startup_delay = 0
 			@shutdown_delay = 0
 		end
